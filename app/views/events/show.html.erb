@@ -1,0 +1,93 @@
+<div class="event">
+
+  <div class="event-info row">
+
+    <div class="col-md-12">
+      <%# Выводим произвольную фотку в качестве фона для шапки события %>
+      <%= content_tag 'div', '',
+        class: 'event-background',
+        style: "background-image: url(#{event_photo(@event)})"
+      %>
+
+      <div class="event-info-inner row">
+        <div class="col-md-6">
+          <div class="event-description">
+            <h1><%= @event.title %></h1>
+            <%# Для перевода времени в русский формат используем I18n %>
+            <%# Формат при этом используется из гема russian %>
+            <h3><%= l @event.datetime, format: :short %></h3>
+            <h3>
+              <small><%= @event.address %></small>
+            </h3>
+            <p><%= @event.description %></p>
+          </div>
+
+          <% if current_user_can_edit?(@event) %>
+            <div class="buffer-top">
+              <%= link_to 'Изменить', edit_event_path(@event), class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+        <div class="col-md-6">
+          <div class="event-map" id="map" data-address="<%= @event.address %>"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="event-photos">
+        <%# Выводим все фотографии события %>
+        <div class="event-photos-gallery">
+          <%= render partial: 'photos/photo', collection: @event.photos.except(@new_photo) %>
+        </div>
+
+        <%# Кнопка вывода формы добавления фотографии %>
+        <div class="buffer-both">
+          <%= link_to "Добавить фотку", '#', class: 'event-photo-form-link' %>
+        </div>
+
+        <%# Рисуем форму для добавления новой фотографии (которая будет скрыта) %>
+        <div class="event-photo-form">
+          <%= render partial: 'photos/form', locals: {photo: @new_photo || @event.photos.build} %>
+        </div>
+      </div>
+
+      <div class="event-comments buffer-top">
+
+        <%= render partial: 'comments/form', locals: {comment: @new_comment || @event.comments.build} %>
+
+        <div class="buffer-both">
+          <%= render partial: 'comments/comment', collection: @event.comments.except(@new_comment) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="event-owner">
+        <h4>Зовет:</h4>
+        <p><%= render partial: 'users/user', object: @event.user %></p>
+      </div>
+      <div class="event-subscriptions">
+        <h4>Пойдут:</h4>
+        <div>
+          <p>
+            <%= render(
+                    partial: 'subscriptions/subscription',
+                    collection: @event.subscriptions.except(@new_subscription)
+                ) %>
+          </p>
+        </div>
+      </div>
+      <div class="event-subscription-form">
+        <h4>Я пойду:</h4>
+        <div>
+          <%= render partial: 'subscriptions/form', locals: {subscription: @new_subscription || @event.subscriptions.build} %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

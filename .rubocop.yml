@@ -1,0 +1,6 @@
+Style/AsciiComments:
+  Enabled: false
+Style/SpaceInsideHashLiteralBraces:
+  Enabled: false
+Metrics/LineLength:
+  Enabled: false
