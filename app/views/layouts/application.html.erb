@@ -70,21 +70,19 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
       <%= bootstrap_flash %>
 
       <%= yield %>
     </div>
-    <div class="col-lg-3">
-    </div><!--/span-->
-  </div><!--/row-->
+  </div>
 
   <footer>
     <%# Для вывода названия компании используем хелпер I18n.t %>
     <p>&copy; <%= link_to t('app.company'), 'http://goodprogrammer.ru/?utm_source=bbq-app&utm_medium=link&utm_campaign=footer_link' %> 2016</p>
   </footer>
 
-</div> <!-- /container -->
+</div>
 
 </body>
 </html>
